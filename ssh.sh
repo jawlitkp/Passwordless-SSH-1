@@ -12,7 +12,7 @@ fi
 USERNAME="user"
 PASSWORD="password"
 HOST="$1"
-PORT="2222"
+PORT="22"
 SSHDIR=".ssh"
 SERVERHOME="/home/nayan"
 AUTHORIZED_KEYS="authorized_keys"
