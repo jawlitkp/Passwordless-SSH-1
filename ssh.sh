@@ -20,7 +20,11 @@ KEYFILE="id_rsa.pub"
 
 ## Passwordless SSH
 
-ssh-keygen -t rsa # Generate Key
+if [ -e "${HOME}/${SSHDIR}/${KEYFILE}" ] ; then
+    echo "Public Key Already Exists. Skipping SSH RSA Key Generation."
+else
+    ssh-keygen -t rsa # Generate Key
+fi
 
 ssh "${USERNAME}"@"${HOST}" -p "${PORT}" << EOF
 
