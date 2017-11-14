@@ -47,4 +47,6 @@ chmod 640 "${SERVERHOME}/${SSHDIR}/${AUTHORIZED_KEYS}"
 
 EOF
 
-cat "${HOME}/${SSHDIR}/${KEYFILE}" | ssh "$USERNAME"@"$HOST" -p "$PORT" "cat >> ${SERVERHOME}/${SSHDIR}/${AUTHORIZED_KEYS}"
+ssh-copy-id -i "${HOME}/${SSHDIR}/${KEYFILE}" "$USERNAME"@"$HOST" -p "$PORT"
+
+#cat "${HOME}/${SSHDIR}/${KEYFILE}" | ssh "$USERNAME"@"$HOST" -p "$PORT" "cat >> ${SERVERHOME}/${SSHDIR}/${AUTHORIZED_KEYS}"
