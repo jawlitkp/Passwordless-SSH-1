@@ -2,31 +2,37 @@
 
 ## Check Arguments
 
-if [ -z "$1" ] ; then
-    echo "Usage: scriptname hostname"
+if [ $# -ne 2 ] ; then
+    echo "Usage: scriptname hostname stricthostcheck"
+	echo "Example: ./ssh.sh 10.10.10.10 no"
     exit 1
 fi
 
 ## Parameters
 
-USERNAME="user"
+USERNAME="username"
 PASSWORD="password"
 HOST="$1"
-PORT="22"
+STRICTHOSTCHECK="$2"
+PORT="2222"
 SSHDIR=".ssh"
 SERVERHOME="/home/nayan"
 AUTHORIZED_KEYS="authorized_keys"
 KEYFILE="id_rsa.pub"
 
+# Remove Faulty Keys
+
+ssh-keygen -R "${HOST}"
+
 ## Passwordless SSH
 
 if [ -e "${HOME}/${SSHDIR}/${KEYFILE}" ] ; then
-    echo "Public Key Already Exists. Skipping SSH RSA Key Generation."
+	echo "Public Key Already Exists. Skipping SSH RSA Key Generation."
 else
-    ssh-keygen -t rsa # Generate Key
+	ssh-keygen -q -t rsa # Generate Key
 fi
 
-ssh "${USERNAME}"@"${HOST}" -p "${PORT}" << EOF
+ssh -o StrictHostKeyChecking="${STRICTHOSTCHECK}" "${USERNAME}"@"${HOST}" -p "${PORT}" << EOF
 
 if [ -e "${SERVERHOME}/${SSHDIR}" ] ; then
   echo "Directory Exists"
